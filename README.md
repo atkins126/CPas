@@ -4,7 +4,7 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
 
 ## Overview
-What if you were able to load and use C99 sources directly from Delphi? There is a vast quantity of C libraries out there and being able to take advantage of them, without being a pain would be nice You could even compile a bunch of sources and save them as a library file, then load them back in from disk, a resource or even from a stream. You can get the symbols, map to a C routine, and execute from the Delphi side all from a simple API.
+What if you were able to load and use C99 sources directly from Delphi? There is a vast quantity of C libraries out there and being able to take advantage of them, without being a pain would be nice. You could even compile a bunch of sources and save them as a library file, then load them back in from disk, a resource or even from a stream. You can get the symbols, map to a C routine, and execute from the Delphi side all from a simple API.
 
 ## Downloads
 <a href="https://github.com/tinyBigGAMES/CPas/releases" target="_blank">**Releases**</a> - These are the official release versions.
@@ -55,11 +55,15 @@ procedure cpFree(var aCPas: TCPas);
 procedure cpReset(aCPas: TCPas);
 procedure cpSetErrorHandler(aCPas: TCPas; aSender: Pointer; aHandler: TCPasErrorEvent);
 procedure cpGetErrorHandler(aCPas: TCPas; var aSender: Pointer;
-    var aHandler: TCPasErrorEvent);
+  var aHandler: TCPasErrorEvent);
 procedure cpSetListSymbolsHandler(aCPas: TCPas; aSender: Pointer;
-    aHandler: TCPasListSymbolsEvent);
+  aHandler: TCPasListSymbolsEvent);
 procedure cpGetListSymbolsHandler(aCPas: TCPas; var aSender: Pointer;
-    var aHandler: TCPasListSymbolsEvent);
+  var aHandler: TCPasListSymbolsEvent);
+procedure cpSetResetHandler(aCPas: TCPas; aSender: Pointer;
+  aHandler: TCPasResetEvent);
+procedure cpGetResetHandler(aCPas: TCPas; var aSender: Pointer;
+  var aHandler: TCPasResetEvent);
 function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpAddIncludePath(aCPas: TCPas; const aPath: WideString): Boolean;
 function  cpAddLibraryPath(aCPas: TCPas; const aPath: WideString): Boolean;
@@ -67,11 +71,11 @@ procedure cpDefineSymbol(aCPas: TCPas; const aName: WideString; const aValue: Wi
 procedure cpUndefineSymbol(aCPas: TCPas; const aName: WideString);
 function  cpSaveLibToFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString;
-    const aAutoRunFunc: WideString=''): Boolean;
+  const aAutoRunFunc: WideString=''): Boolean;
 function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString;
-    const aAutoRunFunc: WideString=''): Boolean;
+  const aAutoRunFunc: WideString=''): Boolean;
 function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream;
-    const aAutoRunFunc: WideString=''): Boolean;
+  const aAutoRunFunc: WideString=''): Boolean;
 function  cpRun(aCPas: TCPas; const aFilename: WideString): Boolean;
 ```
 If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
