@@ -7,7 +7,7 @@
 What if you were able to load and use C99 sources directly from Delphi? There is a vast quantity of C libraries out there and being able to take advantage of them, without being a pain would be nice You could even compile a bunch of sources and save them as a library file, then load them back in from disk, a resource or even from a stream. You can get the symbols, map to a C routine, and execute from the Delphi side all from a simple API.
 
 ## Downloads
-<a href="https://github.com/tinyBigGAMES/PiroGameToolkit/releases" target="_blank">**Releases**</a> - These are the official release versions.
+<a href="https://github.com/tinyBigGAMES/CPas/releases" target="_blank">**Releases**</a> - These are the official release versions.
 
 ## Features
 - **Free** for commercial use. See <a href="https://github.com/tinyBigGAMES/CPas/blob/main/LICENSE" target="_blank">License agreement</a>.
@@ -111,10 +111,7 @@ See the examples for more information on usage.
 
 ## Media
 
-
 https://user-images.githubusercontent.com/69952438/156104143-bffb6c25-7bfa-4697-8413-4ac1740323cd.mp4
-
-
 
 ## Support
 <table>
