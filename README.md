@@ -34,7 +34,8 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - See examples in `installdir\examples` for more information about usage.
 - You must include `CPas.dll` in your project distribution when dynamically linked to CPas. See `CPAS_STATIC` define in the CPas unit file.
 - See `installdir\docs` for documentation.
-- **NOTE:** For your assurance and peace of mind, all official executables in the CPas distro are code signed by **tinyBigGAMES LLC**. 
+
+**NOTE:** For your assurance and peace of mind, all official executables in the CPas distro that where created by us are code signed by **tinyBigGAMES LLC**. 
 
 ## A Tour of CPas
 ### CPas API
