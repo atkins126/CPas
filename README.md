@@ -23,7 +23,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - Direct access to the vast quantity of C99 libraries inside Delphi.
 
 ## Minimum System Requirements
-- <a href="https://www.embarcadero.com/products/delphi/starter" target="_blank">Delphi Community Edition</a>
+- Delphi 10
 - Microsoft Windows 10, 64 bits
 - 10MB of free hard drive space
 
