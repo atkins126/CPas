@@ -19,7 +19,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - Library files can be loaded and used at run-time from a file, a resource or stream.
 - Import symbols directly from a dynamic linked library (**.DLL**) or module-definition (**.DEF**) file.
 - You can reference the symbols from Delphi and directly access their value (mapping to a routine and data).
-- You application can dynamically or statically link to CPas.
+- Your application can dynamically or statically link to CPas.
 - Direct access to the vast quantity of C99 libraries inside Delphi.
 
 ## Minimum System Requirements
@@ -44,39 +44,43 @@ You access the easy to use API in Delphi from the `CPas` unit.
 {.$DEFINE CPAS_STATIC} //<-- define for static distrobution
 
 type
+  { TCPas }
   TCPas = type Pointer;
-  TCPasErrorEvent = procedure(aSender: Pointer; const aMsg: WideString);
-  TCPasListSymbolsEvent = procedure(aSender: Pointer; const aName: WideString; const aValue: Pointer);
-  TCPasAutoRunFunc = function: Integer; cdecl;
 
-function  cpVersion: WideString;
+  { TCPasOutput }
+  TCPasOutput = (cpMemory, cpLib);
+
+  { TCPasErrorMessageEvent }
+  TCPasErrorEvent = procedure(aSender: Pointer; const aMsg: WideString);
+
+{ Misc }
+function cpVersion: WideString;
+
+{ State management }
 function  cpNew: TCPas;
 procedure cpFree(var aCPas: TCPas);
 procedure cpReset(aCPas: TCPas);
+
+{ Error handling }
 procedure cpSetErrorHandler(aCPas: TCPas; aSender: Pointer; aHandler: TCPasErrorEvent);
-procedure cpGetErrorHandler(aCPas: TCPas; var aSender: Pointer;
-  var aHandler: TCPasErrorEvent);
-procedure cpSetListSymbolsHandler(aCPas: TCPas; aSender: Pointer;
-  aHandler: TCPasListSymbolsEvent);
-procedure cpGetListSymbolsHandler(aCPas: TCPas; var aSender: Pointer;
-  var aHandler: TCPasListSymbolsEvent);
-procedure cpSetResetHandler(aCPas: TCPas; aSender: Pointer;
-  aHandler: TCPasResetEvent);
-procedure cpGetResetHandler(aCPas: TCPas; var aSender: Pointer;
-  var aHandler: TCPasResetEvent);
-function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean;
-function  cpAddIncludePath(aCPas: TCPas; const aPath: WideString): Boolean;
-function  cpAddLibraryPath(aCPas: TCPas; const aPath: WideString): Boolean;
+procedure cpGetErrorHandler(aCPas: TCPas; var aSender: Pointer; var aHandler: TCPasErrorEvent);
+
+{ Preprocessing }
 procedure cpDefineSymbol(aCPas: TCPas; const aName: WideString; const aValue: WideString);
 procedure cpUndefineSymbol(aCPas: TCPas; const aName: WideString);
-function  cpSaveLibToFile(aCPas: TCPas; const aFilename: WideString): Boolean;
-function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString;
-  const aAutoRunFunc: WideString=''): Boolean;
-function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString;
-  const aAutoRunFunc: WideString=''): Boolean;
-function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream;
-  const aAutoRunFunc: WideString=''): Boolean;
-function  cpRun(aCPas: TCPas; const aFilename: WideString): Boolean;
+function  cpAddIncludePath(aCPas: TCPas; const aPath: WideString): Boolean;
+function  cpAddLibraryPath(aCPas: TCPas; const aPath: WideString): Boolean;
+
+{ Compiling }
+procedure cpSetOuput(aCPas: TCPas; aOutput: TCPasOutput);
+function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
+function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString): Boolean;
+function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString): Boolean;
+function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream): Boolean;
+function  cpSaveLibToFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
+function  cpLink(aCPas: TCPas): Boolean;
+function  cpRun(aCPas: TCPas): Boolean;
+function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
 ```
 If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
 
@@ -103,8 +107,11 @@ begin
     // setup the error handler
     cpSetErrorHandler(c, nil, ErrorHandler);
     
-    // compile and run the C source file
-    cpRun(c, 'test1.c');
+    // add source file
+    cpAddFile(cp, 'test1.c');
+
+    // link and call main
+    cpRun(cp);
   finally
     // destroy CPas instance
     cpFree(c);
@@ -162,6 +169,6 @@ If this project has been useful to you, please consider sponsoring to help with 
 
 <p align="center">
  <a href="https://www.embarcadero.com/products/delphi" target="_blank"><img src="media/delphi.png"></a><br/>
- <b>Built with ❤ in Delphi</b>
+ <b>❤ Made in Delphi</b>
 </p>
 
