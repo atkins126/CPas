@@ -12,7 +12,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 ## Features
 - **Free** for commercial use. See <a href="https://github.com/tinyBigGAMES/CPas/blob/main/LICENSE" target="_blank">License agreement</a>.
 - Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> at run-time.
-- Support Windows 64 bit platform.
+- Support Windows 64-bit platform.
 - Support for C99.
 - Fast run-time compilation.
 - Can run C sources directly or compile them to a library file (**.LIB**).
@@ -35,14 +35,14 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - You must include `CPas.dll` in your project distribution when dynamically linked to CPas. See `CPAS_STATIC` define in the CPas unit file.
 - See `installdir\docs` for documentation.
 
-**NOTE:** For your assurance and peace of mind, all official executables in the CPas distro that where created by us are code signed by **tinyBigGAMES LLC**. 
+**NOTE:** For your assurance and peace of mind, all official executables in the CPas distro that were created by us are code signed by **tinyBigGAMES LLC**. 
 
 ## A Tour of CPas
 ### CPas API
 You access the easy to use API in Delphi from the `CPas` unit.
 ```pascal
 
-{.$DEFINE CPAS_STATIC} //<-- define for static distrobution
+{.$DEFINE CPAS_STATIC} //<-- define for static distribution
 
 type
   { TCPas }
@@ -74,7 +74,9 @@ function  cpAddLibraryPath(aCPas: TCPas; const aPath: WideString): Boolean;
 
 { Compiling }
 procedure cpSetOuput(aCPas: TCPas; aOutput: TCPasOutput);
-function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
+function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean;
+function  cpCompileString(aCPas: TCPas; const aBuffer: string): Boolean;
+procedure cpAddSymbol(aCPas: TCPas; const aName: WideString; aValue: Pointer);
 function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString): Boolean;
 function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream): Boolean;
@@ -82,6 +84,10 @@ function  cpSaveLibToFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpLink(aCPas: TCPas): Boolean;
 function  cpRun(aCPas: TCPas): Boolean;
 function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
+
+{ Stats }
+procedure cpStartStats(aCPas: TCPas);
+function  cpEndStats(aCPas: TCPas; aShow: Boolean): WideString;
 ```
 If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
 
