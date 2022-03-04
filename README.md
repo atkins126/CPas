@@ -127,6 +127,18 @@ end.
 ```
 See the examples for more information on usage.
 
+## Compatibility
+These are some libraries that I've tested. If you have tried more, let me know and I can add them to the list.
+- **miniaudio** (https://github.com/mackron/miniaudio)
+- **stb_image** (https://github.com/nothings/stb)
+- **stb_image_write** (https://github.com/nothings/stb)
+- **stb_truetype** (https://github.com/nothings/stb)
+- **stb_vorbis** (https://github.com/nothings/stb)
+- **sfml** (https://github.com/SFML/CSFML)
+- **raylib** (https://github.com/raysan5/raylib)
+
+**NOTE**: I've added support for **FreePascal** compiler (**ppcx64**), will be included in a future update.
+
 ## Media
 
 https://user-images.githubusercontent.com/69952438/156104143-bffb6c25-7bfa-4697-8413-4ac1740323cd.mp4
