@@ -15,7 +15,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - Support Windows 64-bit platform.
 - Support for C99.
 - Fast run-time compilation.
-- Can run C sources directly or compile them to a library file (**.LIB**).
+- Can run C sources directly or compile to (**.LIB**, **.EXE**, **.DLL**).
 - Library files can be loaded and used at run-time from a file, a resource or stream.
 - Import symbols directly from a dynamic linked library (**.DLL**) or module-definition (**.DEF**) file.
 - You can reference the symbols from Delphi and directly access their value (mapping to a routine and data).
@@ -23,9 +23,10 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 - Direct access to the vast quantity of C99 libraries inside Delphi.
 
 ## Minimum System Requirements
-- Delphi 10
-- Microsoft Windows 10, 64 bits
-- 10MB of free hard drive space
+- Delphi 10 (Win64 target only)
+- FreePascal 3.3.3 (Win64 target only)
+- Microsoft Windows 10, 64-bits
+- 20MB of free hard drive space
 
 ## How to use in Delphi
 - Unzip the archive to a desired location.
@@ -51,6 +52,9 @@ type
   { TCPasOutput }
   TCPasOutput = (cpMemory, cpLib);
 
+  { TCPasExe }
+  TCPasExe = (cpConsole, cpGUI);
+
   { TCPasErrorMessageEvent }
   TCPasErrorEvent = procedure(aSender: Pointer; const aMsg: WideString);
 
@@ -74,14 +78,18 @@ function  cpAddLibraryPath(aCPas: TCPas; const aPath: WideString): Boolean;
 
 { Compiling }
 procedure cpSetOuput(aCPas: TCPas; aOutput: TCPasOutput);
+function  cpGetOutput(aCPas: TCPas): TCPasOutput;
+procedure cpSetExe(aCPas: TCPas; aExe: TCPasExe);
+function  cpGetExe(aCPas: TCPas): TCPasExe;
+function  cpAddLibrary(aCPas: TCPas; const aName: WideString): Boolean;
 function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpCompileString(aCPas: TCPas; const aBuffer: string): Boolean;
 procedure cpAddSymbol(aCPas: TCPas; const aName: WideString; aValue: Pointer);
 function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString): Boolean;
 function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream): Boolean;
-function  cpSaveLibToFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
-function  cpLink(aCPas: TCPas): Boolean;
+function  cpSaveOutputFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
+function  cpRelocate(aCPas: TCPas): Boolean;
 function  cpRun(aCPas: TCPas): Boolean;
 function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
 
@@ -127,9 +135,25 @@ end.
 ```
 See the examples for more information on usage.
 
+## Compatibility
+These are some libraries that I've tested. If you have tried more, let me know and I can add them to the list.
+- **miniaudio** (https://github.com/mackron/miniaudio)
+- **raylib** (https://github.com/raysan5/raylib)
+- **sfml** (https://github.com/SFML/CSFML)
+- **stb_image** (https://github.com/nothings/stb)
+- **stb_image_write** (https://github.com/nothings/stb)
+- **stb_truetype** (https://github.com/nothings/stb)
+- **stb_vorbis** (https://github.com/nothings/stb)
+
+**NOTE**: I've added support for **FreePascal** compiler (**ppcx64**), will be included in a future update.
+
 ## Media
 
 https://user-images.githubusercontent.com/69952438/156104143-bffb6c25-7bfa-4697-8413-4ac1740323cd.mp4
+
+
+https://user-images.githubusercontent.com/69952438/156843415-f6566612-e7d8-41d6-bc3a-a76977cb95ee.mp4
+
 
 ## Support
 <table>
