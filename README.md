@@ -11,7 +11,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 
 ## Features
 - **Free** for commercial use. See <a href="https://github.com/tinyBigGAMES/CPas/blob/main/LICENSE" target="_blank">License agreement</a>.
-- Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> at run-time.
+- Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> and <a href="https://www.freepascal.org/" target="_blank">FreePascal</a> at run-time.
 - Support Windows 64-bit platform.
 - Support for C99.
 - Fast run-time compilation.
@@ -144,8 +144,6 @@ These are some libraries that I've tested. If you have tried more, let me know a
 - **stb_image_write** (https://github.com/nothings/stb)
 - **stb_truetype** (https://github.com/nothings/stb)
 - **stb_vorbis** (https://github.com/nothings/stb)
-
-**NOTE**: I've added support for **FreePascal** compiler (**ppcx64**), will be included in a future update.
 
 ## Media
 
