@@ -1,6 +1,6 @@
-<a href="https://tinybiggames.com" target="_blank">![PGT Logo](media/logo.png)</a>
+<a href="https://tinybiggames.com" target="_blank">![CPas Logo](media/logo.png)</a>
 
-[![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![GitHub stars](https://img.shields.io/github/stars/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/stargazers) [![GitHub Watchers](https://img.shields.io/github/watchers/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/network/members) [![GitHub forks](https://img.shields.io/github/forks/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/network/members)
+[![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![GitHub stars](https://img.shields.io/github/stars/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/stargazers) [![GitHub Watchers](https://img.shields.io/github/watchers/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/network/members) [![GitHub forks](https://img.shields.io/github/forks/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/network/members)
 [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
 
 ## Overview
