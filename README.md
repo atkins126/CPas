@@ -50,7 +50,7 @@ type
   TCPas = type Pointer;
 
   { TCPasOutput }
-  TCPasOutput = (cpMemory, cpLib);
+  TCPasOutput = (cpMemory, cpLib, cpEXE, cpDLL);
 
   { TCPasExe }
   TCPasExe = (cpConsole, cpGUI);
@@ -59,7 +59,7 @@ type
   TCPasErrorEvent = procedure(aSender: Pointer; const aMsg: WideString);
 
 { Misc }
-function cpVersion: WideString;
+function  cpVersion: WideString;
 
 { State management }
 function  cpNew: TCPas;
@@ -96,6 +96,21 @@ function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
 { Stats }
 procedure cpStartStats(aCPas: TCPas);
 function  cpEndStats(aCPas: TCPas; aShow: Boolean): WideString;
+
+{ Resources }
+procedure cpSetExeIcon(aCPas: TCPas; const aFilename: WideString);
+function  cpGetExeIcon(aCPas: TCPas): WideString;
+procedure cpSetAddVersionInfo(aCPas: TCPas; aAddVersionInfo: Boolean);
+function  cpGetAddVersionInfo(aCPas: TCPas): Boolean;
+procedure cpSetVersionInfo(aCPas: TCPas; const aCompanyName: WideString;
+  const aFileVersion: WideString; const aFileDescription: WideString;
+  const aOriginalFilename: WideString; const aLegalCopyright: WideString;
+  const aComments: WideString);
+procedure cpGetVersionInfo(aCPas: TCPas; var aCompanyName: WideString;
+  var aFileVersion: WideString; var aFileDescription: WideString;
+  var aOriginalFilename: WideString; var aLegalCopyright: WideString;
+  var aComments: WideString);
+
 ```
 If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
 
