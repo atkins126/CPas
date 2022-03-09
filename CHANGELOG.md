@@ -1,4 +1,13 @@
 # CHANGELOG :: CPas-C for Delphi
+## Version 1.2.stable
+- Added updated existing examples to use new/updates functions
+- cpGetVersionInfo, get version information
+- cpSetVersionInfo, set version information
+- cpGetAddVersionInfo, get add version info
+- cpSetAddVersionInfo, set add version info
+- Added cpGetExeIcon, get EXE icon filename
+- Added cpSetExeIcon, set EXE icon filename
+- Miscellaneous enhancements
 ## Version 1.1.stable
 - Added output_exe example
 - Added ouput_dll example

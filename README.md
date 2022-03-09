@@ -1,6 +1,6 @@
-<a href="https://tinybiggames.com" target="_blank">![PGT Logo](media/logo.png)</a>
+<a href="https://tinybiggames.com" target="_blank">![CPas Logo](media/logo.png)</a>
 
-[![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![GitHub stars](https://img.shields.io/github/stars/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/stargazers) [![GitHub Watchers](https://img.shields.io/github/watchers/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/network/members) [![GitHub forks](https://img.shields.io/github/forks/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/PiroGameToolkit/network/members)
+[![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![GitHub stars](https://img.shields.io/github/stars/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/stargazers) [![GitHub Watchers](https://img.shields.io/github/watchers/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/network/members) [![GitHub forks](https://img.shields.io/github/forks/tinyBigGAMES/CPas?style=social)](https://github.com/tinyBigGAMES/CPas/network/members)
 [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
 
 ## Overview
@@ -11,7 +11,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 
 ## Features
 - **Free** for commercial use. See <a href="https://github.com/tinyBigGAMES/CPas/blob/main/LICENSE" target="_blank">License agreement</a>.
-- Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> at run-time.
+- Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> and <a href="https://www.freepascal.org/" target="_blank">FreePascal</a> at run-time.
 - Support Windows 64-bit platform.
 - Support for C99.
 - Fast run-time compilation.
@@ -50,7 +50,7 @@ type
   TCPas = type Pointer;
 
   { TCPasOutput }
-  TCPasOutput = (cpMemory, cpLib);
+  TCPasOutput = (cpMemory, cpLib, cpEXE, cpDLL);
 
   { TCPasExe }
   TCPasExe = (cpConsole, cpGUI);
@@ -59,7 +59,7 @@ type
   TCPasErrorEvent = procedure(aSender: Pointer; const aMsg: WideString);
 
 { Misc }
-function cpVersion: WideString;
+function  cpVersion: WideString;
 
 { State management }
 function  cpNew: TCPas;
@@ -96,6 +96,21 @@ function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
 { Stats }
 procedure cpStartStats(aCPas: TCPas);
 function  cpEndStats(aCPas: TCPas; aShow: Boolean): WideString;
+
+{ Resources }
+procedure cpSetExeIcon(aCPas: TCPas; const aFilename: WideString);
+function  cpGetExeIcon(aCPas: TCPas): WideString;
+procedure cpSetAddVersionInfo(aCPas: TCPas; aAddVersionInfo: Boolean);
+function  cpGetAddVersionInfo(aCPas: TCPas): Boolean;
+procedure cpSetVersionInfo(aCPas: TCPas; const aCompanyName: WideString;
+  const aFileVersion: WideString; const aFileDescription: WideString;
+  const aOriginalFilename: WideString; const aLegalCopyright: WideString;
+  const aComments: WideString);
+procedure cpGetVersionInfo(aCPas: TCPas; var aCompanyName: WideString;
+  var aFileVersion: WideString; var aFileDescription: WideString;
+  var aOriginalFilename: WideString; var aLegalCopyright: WideString;
+  var aComments: WideString);
+
 ```
 If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
 
@@ -144,8 +159,6 @@ These are some libraries that I've tested. If you have tried more, let me know a
 - **stb_image_write** (https://github.com/nothings/stb)
 - **stb_truetype** (https://github.com/nothings/stb)
 - **stb_vorbis** (https://github.com/nothings/stb)
-
-**NOTE**: I've added support for **FreePascal** compiler (**ppcx64**), will be included in a future update.
 
 ## Media
 
