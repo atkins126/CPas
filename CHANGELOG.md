@@ -1,4 +1,8 @@
 # CHANGELOG :: CPas-C for Delphi
+## Version 1.3.stable
+- Updated cpAddLibrary to support (.LIB) files
+- Updated cpSetVerionInfo to validate FileVersion to SemVer format (major.minor.path)
+- Miscellaneous enhancements
 ## Version 1.2.stable
 - Added updated existing examples to use new/updates functions
 - Added cpGetVersionInfo, get version information
