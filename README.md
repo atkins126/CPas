@@ -151,14 +151,7 @@ end.
 See the examples for more information on usage.
 
 ## Compatibility
-These are some libraries that I've tested. If you have tried more, let me know and I can add them to the list.
-- **miniaudio** (https://github.com/mackron/miniaudio)
-- **raylib** (https://github.com/raysan5/raylib)
-- **sfml** (https://github.com/SFML/CSFML)
-- **stb_image** (https://github.com/nothings/stb)
-- **stb_image_write** (https://github.com/nothings/stb)
-- **stb_truetype** (https://github.com/nothings/stb)
-- **stb_vorbis** (https://github.com/nothings/stb)
+A curated <a href="https://github.com/tinyBigGAMES/cpLibs" target="_blank">repo</a> of compatible libraries for CPas.
 
 ## Media
 
