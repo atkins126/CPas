@@ -26,7 +26,7 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 
 ## Minimum System Requirements
 - Delphi 10 (Win32/Win64 targets only)
-- FreePascal 3.3.3 (Win32/Win64 targets only)
+- FreePascal 3.2.2 (Win32/Win64 targets only)
 - Microsoft Windows 10, 64-bits
 - 20MB of free hard drive space
 
