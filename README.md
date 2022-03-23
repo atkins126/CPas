@@ -12,29 +12,31 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 ## Features
 - **Free** for commercial use. See <a href="https://github.com/tinyBigGAMES/CPas/blob/main/LICENSE" target="_blank">License agreement</a>.
 - Allow C integration with <a href="https://www.embarcadero.com/products/Delphi" target="_blank">Delphi</a> and <a href="https://www.freepascal.org/" target="_blank">FreePascal</a> at run-time.
-- Support Windows 64-bit platform.
+- Support Windows 32/64-bit target platforms.
 - Support for C99.
 - Fast run-time compilation.
 - Can run C sources directly or compile to (**.LIB**, **.EXE**, **.DLL**).
 - Library files can be loaded and used at run-time from a file, a resource or stream.
 - Import symbols directly from a dynamic linked library (**.DLL**) or module-definition (**.DEF**) file.
-- You can reference the symbols from Delphi and directly access their value (mapping to a routine and data).
+- You can reference the symbols from Pascal and directly access their value (mapping to a routine and data).
 - Your application can dynamically or statically link to CPas.
 - Direct access to the vast quantity of C99 libraries inside Delphi.
+- Project directives to control project settings at compile-time.
+- Your application can link to CPas dynamically or statically.
 
 ## Minimum System Requirements
-- Delphi 10 (Win64 target only)
-- FreePascal 3.3.3 (Win64 target only)
+- Delphi 10 (Win32/Win64 targets only)
+- FreePascal 3.2.2 (Win32/Win64 targets only)
 - Microsoft Windows 10, 64-bits
 - 20MB of free hard drive space
 
 ## How to use in Delphi
 - Unzip the archive to a desired location.
-- Add `installdir\sources`, folder to Delphi's library path so the CPas source files can be found for any project or for a specific project add to its search path.
-- Add `installdir\bin`, folder to Windows path so that `CPas.dll` file can be found for any project or place beside project executable.
+- Add `installdir\sources`, folder to Delphi's library path so the CPas binding files can be found for any project or for a specific project add to its search path.
+- Add `installdir\bin`, folder to Windows path so that CPas DLLs can be found for any project or place beside project executable.
 - See examples in `installdir\examples` for more information about usage.
-- You must include `CPas.dll` in your project distribution when dynamically linked to CPas. See `CPAS_STATIC` define in the CPas unit file.
-- See `installdir\docs` for documentation.
+- You must include CPas DLLs (`CPas32.dll` or `CPas64.dll`) in your project distribution when dynamically linked to CPas.
+- See `installdir\help` for documentation.
 
 **NOTE:** For your assurance and peace of mind, all official executables in the CPas distro that were created by us are code signed by **tinyBigGAMES LLC**. 
 
@@ -42,8 +44,6 @@ What if you were able to load and use C99 sources directly from Delphi? There is
 ### CPas API
 You access the easy to use API in Delphi from the `CPas` unit.
 ```pascal
-
-{.$DEFINE CPAS_STATIC} //<-- define for static distribution
 
 type
   { TCPas }
@@ -61,7 +61,7 @@ type
 { Misc }
 function  cpVersion: WideString;
 
-{ State management }
+{ Context management }
 function  cpNew: TCPas;
 procedure cpFree(var aCPas: TCPas);
 procedure cpReset(aCPas: TCPas);
@@ -86,12 +86,13 @@ function  cpAddFile(aCPas: TCPas; const aFilename: WideString): Boolean;
 function  cpCompileString(aCPas: TCPas; const aBuffer: string): Boolean;
 procedure cpAddSymbol(aCPas: TCPas; const aName: WideString; aValue: Pointer);
 function  cpLoadLibFromFile(aCPas: TCPas; const aFilename: WideString): Boolean;
-function  cpLoadLibFromResource(aCPas: TCPas; const aResName: WideString): Boolean;
-function  cpLoadLibFromStream(aCPas: TCPas; aStream: TStream): Boolean;
+function  cpLoadLibFromResource(aCPas: TCPas;  aInstance: THandle; const aResName: WideString): Boolean;
+function  cpLoadLibFromMemory(aCPas: TCPas; const aBuffer: Pointer; const aSize: Int64): Boolean;
 function  cpSaveOutputFile(aCPas: TCPas; const aFilename: WideString): Boolean; 
 function  cpRelocate(aCPas: TCPas): Boolean;
 function  cpRun(aCPas: TCPas): Boolean;
 function  cpGetSymbol(aCPas: TCPas; const aName: WideString): Pointer;
+function  cpCompile(aCPas: TCPas; const aFilename: WideString): Boolean;
 
 { Stats }
 procedure cpStartStats(aCPas: TCPas);
@@ -110,16 +111,61 @@ procedure cpGetVersionInfo(aCPas: TCPas; var aCompanyName: WideString;
   var aFileVersion: WideString; var aFileDescription: WideString;
   var aOriginalFilename: WideString; var aLegalCopyright: WideString;
   var aComments: WideString);
+```
+### Linking to CPas
+Your applcation can link dynamiclly or statically to CPas. For dynamic linking (which require you to include either **CPas32.dll** or **CPas64.dll** with your distro), simply add `CPas` to your projects uses section. For static linking (which does not require any an external DLL), instead use `CPas.Static`. You can **NOT** have both enabled at the same time, your application will gracefully terminate with an warning message.
+
+### Project Directives
+Directives added to your source file and compiled via `cpCompile`, will allow you to control project settings at compile time. You add them via a comment block at the top of your main project source file. Quotes surrounding the values are optional, but necessory for values with spaces as seen below.
+```C
+/* === PROJECT DIRECTIVES ===
+@SetOutput        "EXE"
+@SetExe           "Console"
+@SetOutputname    "output/MyCompileFile"
+@AddVersionInfo   "YES"  
+@CompanyName      "tinyBigGAMES(tm) LLC" 
+@FileVersion      "1.0.0"
+@FileDescription  "MyCompileFile"
+@OriginalFilename "MyCompileFile.exe"
+@LegalCopyright   "Copyright (c) 2022 tinyBigGAMES(tm) LLC"
+@Comments         "https://tinybiggames.com"
+*/
+
+#include <stdio.h>
+
+void main(void)
+{
+  printf("Hello World!\n");  
+}
 
 ```
-If you want CPas to be statically bound to your application, enable the `{$CPAS_STATIC}` define in the CPas unit.
+
+CPas supports the following project directives:
+
+| DIRECTIVE         | VALUES               | DISCRIPTION             |
+|-------------------|----------------------|-------------------------|
+| @SetOutput        | EXE, DLL, LIB        | Set compile module type |
+| @SetExe           | CONSOLE, GUI         | Set EXE subsystem |
+| @SetOutputname    | name                 | Module output filename |
+| @AddIncludePath   | valid path           | C include file path |
+| @AddLibraryPath   | valid path           | Library location in filesystem |
+| @AddLibrary       | library name         | Library name (no extenstion) |
+| @AddFile          | .C, .LIB, .DEF, .DLL | Add file to compile or to reference |
+| @AddVersionInfo   | YES, NO, TRUE, FALSE | Enable/disable adding version info |
+| @CompanyName      | company name         | File company name |
+| @FileVersion      | SemVer               | File version in major.minor.path format |
+| @FileDescription  | description          | File description |
+| @OriginalFilename | filename             | Filename |
+| @LegalCopyright   | copyright            | File copyright |
+| @Comments         | comments             | File comments |
 
 ### How to use
 A minimal implementation example:
 ```pascal
 uses
   System.SysUtils,
-  CPas;
+  CPas; //<--- use for dynamic linking
+  //CPas.Static; //<--- use for static linking
 
 var
   c: TCPas;
@@ -151,14 +197,7 @@ end.
 See the examples for more information on usage.
 
 ## Compatibility
-These are some libraries that I've tested. If you have tried more, let me know and I can add them to the list.
-- **miniaudio** (https://github.com/mackron/miniaudio)
-- **raylib** (https://github.com/raysan5/raylib)
-- **sfml** (https://github.com/SFML/CSFML)
-- **stb_image** (https://github.com/nothings/stb)
-- **stb_image_write** (https://github.com/nothings/stb)
-- **stb_truetype** (https://github.com/nothings/stb)
-- **stb_vorbis** (https://github.com/nothings/stb)
+A curated <a href="https://github.com/tinyBigGAMES/cpLibs" target="_blank">repo</a> of compatible libraries for CPas.
 
 ## Media
 
@@ -169,42 +208,17 @@ https://user-images.githubusercontent.com/69952438/156843415-f6566612-e7d8-41d6-
 
 
 ## Support
-<table>
-<tbody>
-	<tr>
-		<td>Project Discussions</td>
-		<td><a href="https://github.com/tinyBigGAMES/CPas/discussions">https://github.com/tinyBigGAMES/CPas/discussions</a></td>
-	</tr>
-	<tr>
-		<td>Project Tracking</td>
-		<td><a href="https://github.com/tinyBigGAMES/CPas/projects">https://github.com/tinyBigGAMES/CPas/projects</a></td>
-	</tr>	
-	<tr>
-		<td>Website</td>
-		<td><a href="https://tinybiggames.com">https://tinybiggames.com</a></td>
-	</tr>
-	<tr>
-		<td>E-Mail</td>
-		<td><a href="mailto:support@tinybiggames.com">support@tinybiggames.com</a></td>
-	</tr>
-	<tr>
-		<td>Discord</td>
-		<td><a href="https://discord.gg/tPWjMwK">https://discord.io/tinyBigGAMES</a></td>
-	</tr>
-	<tr>
-		<td>Twitter</td>
-		<td><a href="https://twitter.com/tinyBigGAMES">https://twitter.com/tinyBigGAMES</a></td>
-	</tr>
-	<tr>
-		<td>Facebook</td>
-		<td><a href="https://facebook.com/tinyBigGAMES">https://facebook.com/tinyBigGAMES</a></td>
-	</tr>
-	<tr>
-		<td>YouTube</td>
-		<td><a href="https://youtube.com/tinyBigGAMES">https://youtube.com/tinyBigGAMES</a></td>
-	</tr>
-</tbody>
-</table>
+
+| DESCRIPTION  | URL |
+|-|-|
+|Project Discussions| https://github.com/tinyBigGAMES/CPas/discussions |
+| Project Tracking | https://github.com/tinyBigGAMES/CPas/projects |
+| Website | https://tinybiggames.com |
+| E-Mail | mailto:support@tinybiggames.com |
+| Discord | https://discord.gg/tPWjMwK |
+| Twitter | https://twitter.com/tinyBigGAMES |
+| Facebook | https://facebook.com/tinyBigGAMES |
+| YouTube | https://youtube.com/tinyBigGAMES |
 
 ## Sponsor
 If this project has been useful to you, please consider sponsoring to help with it's continued development. **Thank You!** :clap:
